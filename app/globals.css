@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* lock viewport, no page scroll */
+}
+
+/* Subtle global background texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 50% 0%, color-mix(in oklab, var(--foreground) 8%, transparent) 0%, transparent 60%),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--foreground) 4%, transparent) 0 1px, transparent 1px 100px);
+  mask: linear-gradient(to bottom, black, black 70%, transparent);
+  opacity: .5;
+}
+
+/* Hide scrollbars utility (used by the horizontal road scroller) */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Road scroller visuals */
+.road {
+  --asphalt: color-mix(in oklab, var(--foreground) 6%, transparent);
+  --lane: color-mix(in oklab, var(--foreground) 40%, transparent);
+  position: relative;
+  background: var(--asphalt);
+}
+.road::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0 20px,
+    var(--lane) 20px 40px
+  );
+  opacity: .6;
+}
+
+/* Card hover lift */
+.lift {
+  transform: translateY(0) scale(1);
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+}
+.lift:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+/* Smooth fade-in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .6s ease both; }
+
+/* Auto-infinite horizontal marquee for the road scroller */
+@keyframes scrollX {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee { position: relative; overflow: hidden; }
+.marquee-track {
+  display: flex;
+  width: max-content; /* allow natural width */
+  animation: scrollX 36s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee:focus-within .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
