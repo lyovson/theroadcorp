@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === 'production' ? "https://theroadcorp.com" : "http://localhost:3000");
   const metadataBase = new URL(siteUrl);
   return {
     title: {

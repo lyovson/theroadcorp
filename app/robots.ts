@@ -1,19 +1,19 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL;
+  const base = "https://theroadcorp.com";
   
-  const robotsConfig: MetadataRoute.Robots = {
+  return {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: [
+        "/api/", // Block API routes
+        "/_next/", // Block Next.js internal files  
+        "/admin/", // Block admin areas if any
+      ],
     },
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
   };
-  
-  if (base) {
-    robotsConfig.sitemap = `${base}/sitemap.xml`;
-    robotsConfig.host = base;
-  }
-  
-  return robotsConfig;
 }
