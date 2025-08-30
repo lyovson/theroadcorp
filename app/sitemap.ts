@@ -1,8 +1,13 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "";
+  const base = process.env.NEXT_PUBLIC_SITE_URL;
   const now = new Date();
+  
+  if (!base) {
+    return [];
+  }
+  
   return [
     {
       url: base,
