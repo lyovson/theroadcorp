@@ -109,7 +109,7 @@ body::before {
 /* Auto-infinite horizontal marquee for the road scroller */
 @keyframes scrollX {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-25%); }
 }
 .marquee { position: relative; overflow: hidden; }
 .marquee-track {

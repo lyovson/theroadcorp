@@ -66,7 +66,7 @@ export default function Home() {
           <div className="road border-y overflow-hidden w-full">
             <div className="marquee" role="region" aria-label="Featured projects" aria-live="off">
               <ul className="marquee-track items-stretch gap-6 sm:gap-8 px-6 py-6 sm:py-8">
-                {[...projects, ...projects].map((p, idx) => {
+                {Array.from({ length: 12 }, (_, i) => projects[i % projects.length]).map((p, idx) => {
                   const hidden = idx >= projects.length;
                   return (
                     <li

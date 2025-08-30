@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  const metadataBase = siteUrl ? new URL(siteUrl) : undefined;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const metadataBase = new URL(siteUrl);
   return {
     title: {
       default: "Roadcorp",
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: "Roadcorp" }],
     metadataBase,
     alternates: {
-      canonical: siteUrl || "/",
+      canonical: siteUrl,
     },
     openGraph: {
       type: "website",
@@ -87,16 +87,16 @@ export async function generateMetadata(): Promise<Metadata> {
       // yandex: "your-yandex-verification-code",
       // yahoo: "your-yahoo-verification-code",
     },
-    themeColor: [
-      { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-      { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-    ],
   };
 }
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({
